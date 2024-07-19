@@ -3,5 +3,7 @@ numpy
 seaborn
 xgboost
 lightgbm
+dill
+scikit-learn
 
 -e .
