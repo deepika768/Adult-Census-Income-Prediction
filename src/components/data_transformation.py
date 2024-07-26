@@ -25,7 +25,7 @@ class DataTransformation:
     def get_data_transformer_object(self):
         try:
              numerical_col=["age","fnlwgt","education-num","marital-status","occupation","relationship","capital-gain","capital-loss"]
-             categorical_col=["workclass","race","sex","salary","hours-per-week","country"]
+             categorical_col=["workclass","race","sex","hours-per-week","country","salary"]
 
 
              num_pipeline= Pipeline(
@@ -75,14 +75,14 @@ class DataTransformation:
 
             preprocessing_obj=self.get_data_transformer_object()
 
-            target_column_name="salary"
+            #target_column_name="salary"
             numerical_columns = ["age","fnlwgt","education-num","marital-status","occupation","relationship","capital-gain","capital-loss"]
 
-            input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
-            target_feature_train_df=train_df[target_column_name]
+            input_feature_train_df=train_df.drop(columns="salary",axis=1)
+            target_feature_train_df=train_df["salary"]
 
-            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
-            target_feature_test_df=test_df[target_column_name]
+            input_feature_test_df=test_df.drop(columns="salary",axis=1)
+            target_feature_test_df=test_df["salary"]
 
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
