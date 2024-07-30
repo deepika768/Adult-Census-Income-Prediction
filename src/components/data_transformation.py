@@ -24,8 +24,8 @@ class DataTransformation:
 
     def get_data_transformer_object(self):
         try:
-             numerical_col=["age","fnlwgt","education-num","marital-status","occupation","relationship","capital-gain","capital-loss"]
-             categorical_col=["workclass","race","sex","hours-per-week","country","salary"]
+             numerical_col=["age","fnlwgt","education-num","capital-gain","capital-loss"]
+             categorical_col=["workclass","marital-status","occupation","relationship","race","sex","hours-per-week","country"]
 
 
              num_pipeline= Pipeline(
@@ -70,13 +70,18 @@ class DataTransformation:
             test_df=pd.read_csv(test_path)
 
             logging.info("Read train and test data completed")
+            
+            logging.info(f"Train DataFrame columns: {train_df.columns}")
+            logging.info(f"Train DataFrame head:\n{train_df.head()}")
+            logging.info(f"Test DataFrame columns: {test_df.columns}")
+            logging.info(f"Test DataFrame head:\n{test_df.head()}")
 
             logging.info("Obtaining preprocessing object")
 
             preprocessing_obj=self.get_data_transformer_object()
 
             #target_column_name="salary"
-            numerical_columns = ["age","fnlwgt","education-num","marital-status","occupation","relationship","capital-gain","capital-loss"]
+            numerical_columns = ["age","fnlwgt","education-num","capital-gain","capital-loss"]
 
             input_feature_train_df=train_df.drop(columns="salary",axis=1)
             target_feature_train_df=train_df["salary"]

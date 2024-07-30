@@ -89,7 +89,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df = pd.read_csv('D:/Adult Census Prediction/Notebook/data/adult.csv')
+            df = pd.read_csv('D:/Adult_Census_Prediction/Notebook/data/adult.csv')
             logging.info("Read the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)

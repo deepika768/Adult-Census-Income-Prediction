@@ -1,9 +1,12 @@
 pandas 
 numpy
 seaborn
+matplotlib
 xgboost
 lightgbm
 dill
 scikit-learn
+flask
+catboost
 
 -e .

@@ -25,7 +25,7 @@ class CustomData:
     capital_loss:int,
     hours_per_week:int,
     country:str,
-    salary:str):
+    ):
         self.age=age
         self.workclass=workclass
         self.fnlwgt=fnlwgt
@@ -40,4 +40,30 @@ class CustomData:
         self.capital_loss=capital_loss
         self.hours_per_week=hours_per_week
         self.country=country
-        self.salary=salary
+        
+
+
+    def get_data_as_data_frame(self):
+        try:
+            custom_data_input_dict={
+                "age":[self.age],
+                "workclass":[self.workclass],
+                "fnlwgt":[self.fnlwgt],
+                "education":[self.education],
+                "education-num":[self.education_num],
+                "marital-status":[self.marital_status],
+                "occupation":[self.occupation],
+                "relationship":[self.relationship],
+                "race":[self.race],
+                "sex":[self.sex],
+                "capital-gain":[self.capital_gain],
+                "capital-loss":[self.capital_loss],
+                "hours-per-week":[self.hours_per_week],
+                "country":[self.country],
+               
+
+            }
+            return pd.DataFrame(custom_data_input_dict)
+
+        except Exception as e:
+            raise CustomException(e,sys)
