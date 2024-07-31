@@ -1,4 +1,4 @@
-'''import os
+import os
 import sys
 from src.exception import CustomException
 from src.logger import logging
@@ -11,7 +11,7 @@ from dataclasses import dataclass
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from src.components.data_transformation import DataTransformation
-from src.components.data_transformation_config import DataTransformationConfig
+from src.components.data_transformation import DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -26,7 +26,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df = pd.read_csv('D:/Adult Census Prediction/Notebook/data/adult_mod.csv')
+            df = pd.read_csv('D:/Adult_Census_Prediction/Notebook/data/adult.csv')
             logging.info("Read the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
@@ -51,14 +51,18 @@ if __name__ == "__main__":
     train_data, test_data = obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    data_transformation.initiate_data_transformation(train_data, test_data)'''
+    data_transformation.initiate_data_transformation(train_data, test_data)
+
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
 
 
-
+'''
 import os
 import sys
 from dataclasses import dataclass
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 # Ensure the project root is added to the system path
@@ -73,7 +77,6 @@ from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 from src.components.model_trainer import ModelTrainerConfig
 from src.components.model_trainer import ModelTrainer
-
 
 
 @dataclass
@@ -114,8 +117,8 @@ if __name__ == "__main__":
     train_data, test_data = obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    train_arr,test_arr=data_transformation.initiate_data_transformation(train_data, test_data)
+    train_arr, test_arr = data_transformation.initiate_data_transformation(train_data, test_data)
 
-    Modeltrainer=ModelTrainer()
-    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
-    
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+'''
