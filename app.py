@@ -1,39 +1,38 @@
 import numpy as np
 from flask import Flask, request, render_template
-from src.pipeline.predict_pipeline import CustomData, Predict_pipeline
+import pickle
+from urllib.parse import quote as url_quote
 
 # Create Flask app
 app = Flask(__name__)
 
-@app.route('/predictdata', methods=['GET', 'POST'])
-def predict_datapoint():
-    if request.method == 'GET':
-        return render_template('index.html')
-    else:
-        data = CustomData(
-            age=int(request.form.get('age')),
-            workclass=request.form.get('workclass'),
-            education=request.form.get('education'),
-            marital_status=request.form.get('marital-status'),
-            occupation=request.form.get('occupation'),
-            relationship=request.form.get('relationship'),
-            race=request.form.get('race'),
-            sex=request.form.get('sex'),
-            capital_gain=int(request.form.get('capital-gain')),
-            capital_loss=int(request.form.get('capital-loss')),
-            hours_per_week=int(request.form.get('hours-per-week')),
-            country=request.form.get('country')
-        )
-        pred_df = data.get_data_as_data_frame()
-        print(pred_df)
-        print("Before Prediction")
+# Load the model once globally
+model = pickle.load(open('model.pkl', 'rb'))
 
-        predict_pipeline = Predict_pipeline()
-        print("Mid Prediction")
-        results = predict_pipeline.predict(pred_df)
-        print("After Prediction")
+# Prediction function
+def ValuePredictor(to_predict_list):
+    to_predict = np.array(to_predict_list).reshape(1, -1)
+    result = model.predict(to_predict)
+    return result[0]
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/result', methods=['POST'])
+def result():
+    if request.method == 'POST':
+        to_predict_list = request.form.to_dict()
+        to_predict_list = list(to_predict_list.values())
+        to_predict_list = list(map(int, to_predict_list))  # Ensure all inputs are integers
+        result = ValuePredictor(to_predict_list)
         
-        return render_template('index.html', results=results[0])
+        if int(result) == 1:
+            prediction = 'Income is >50K $'
+        else:
+            prediction = 'Income is <=50K $'
+        
+        return render_template('index.html', prediction_text=prediction)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.run(debug=True)
